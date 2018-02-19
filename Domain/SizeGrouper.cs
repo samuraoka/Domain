@@ -12,7 +12,7 @@ namespace Domain
             this.groupSize = groupSize;
         }
 
-        public IList<IList<Measurement>> Group(List<Measurement> measurements)
+        public IList<IList<Measurement>> Group(IList<Measurement> measurements)
         {
             var result = new List<IList<Measurement>>();
             int total = 0;

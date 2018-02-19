@@ -6,48 +6,29 @@ namespace Domain.Tests
 {
     public class SizeGrouperTests
     {
-        [Fact]
-        public void ShouldProduceGroupOfSizeOneIfListOfOneIsGroupedByOne()
+        [Theory]
+        [InlineData(1, 1, 1)]
+        [InlineData(2, 1, 2)]
+        [InlineData(4, 2, 2)]
+        public void ShouldProduceGroupOfSizeIfListOfOneIsGroupedBy(int dataSize, int sizeOfEachGroup, int numberOfGroups)
         {
-            var measurements = new List<Measurement> {
-                new Measurement { HighValue = 10, LowValue = -1 },
-            };
+            var measurements = CreateMeasurementListOfSize(dataSize);
 
-            var grouper = new SizeGrouper(1);
+            var grouper = new SizeGrouper(sizeOfEachGroup);
             var groupedResults = grouper.Group(measurements);
 
-            Assert.Equal(1, groupedResults.Count);
+            Assert.Equal(numberOfGroups, groupedResults.Count);
+            Assert.True(groupedResults.All(g => g.Count == sizeOfEachGroup));
         }
 
-        [Fact]
-        public void ShouldProduceGroupOfSizeTwoIfListOfTwoIsGroupedByOne()
+        private IList<Measurement> CreateMeasurementListOfSize(int size)
         {
-            var measurements = new List<Measurement> {
-                new Measurement { HighValue = 10, LowValue = -1 },
-                new Measurement { HighValue = 10, LowValue = -1 },
-            };
-
-            var grouper = new SizeGrouper(1);
-            var groupedResults = grouper.Group(measurements);
-
-            Assert.Equal(2, groupedResults.Count);
-        }
-
-        [Fact]
-        public void ShouldProduceGroupOfSizeTwoIfListOfFourIsGroupedByTwo()
-        {
-            var measurements = new List<Measurement> {
-                new Measurement { HighValue = 10, LowValue = -1 },
-                new Measurement { HighValue = 10, LowValue = -1 },
-                new Measurement { HighValue = 10, LowValue = -1 },
-                new Measurement { HighValue = 10, LowValue = -1 },
-            };
-
-            var grouper = new SizeGrouper(2);
-            var groupedResults = grouper.Group(measurements);
-
-            Assert.Equal(2, groupedResults.Count);
-            Assert.True(groupedResults.All(g => g.Count == 2));
+            var result = new List<Measurement>();
+            for (int i = 0; i < size; i++)
+            {
+                result.Add(new Measurement { HighValue = 10, LowValue = -1 });
+            }
+            return result;
         }
     }
 }
