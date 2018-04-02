@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Domain
 {
-    public class SizeGrouper
+    public class SizeGrouper : IGrouper
     {
         private int groupSize;
 
@@ -12,17 +12,14 @@ namespace Domain
             this.groupSize = groupSize;
         }
 
-        public IList<IList<Measurement>> Group(IList<Measurement> measurements)
+        public IEnumerable<IEnumerable<Measurement>> Group(IList<Measurement> measurements)
         {
-            var result = new List<IList<Measurement>>();
             int total = 0;
             while (total < measurements.Count)
             {
-                var group = measurements.Skip(total).Take(groupSize).ToList();
-                result.Add(group);
+                yield return measurements.Skip(total).Take(groupSize).ToList();
                 total += groupSize;
             }
-            return result;
         }
     }
 }
