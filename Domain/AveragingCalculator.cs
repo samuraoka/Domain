@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Domain
 {
@@ -6,8 +8,16 @@ namespace Domain
     {
         public Measurement Aggregate(IEnumerable<Measurement> measurements)
         {
-            //TODO
-            return null;
+            if (measurements.Contains(null))
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new Measurement()
+            {
+                HighValue = measurements.Average(m => m.HighValue),
+                LowValue = measurements.Average(m => m.LowValue),
+            };
         }
     }
 }
