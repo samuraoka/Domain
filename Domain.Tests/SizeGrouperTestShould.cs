@@ -4,13 +4,13 @@ using Xunit;
 
 namespace Domain.Tests
 {
-    public class SizeGrouperTests
+    public class SizeGrouperTestShould
     {
         [Theory]
         [InlineData(1, 1, 1)]
         [InlineData(2, 1, 2)]
         [InlineData(4, 2, 2)]
-        public void ShouldProduceGroupOfSizeIfListOfOneIsGroupedBy(int dataSize, int sizeOfEachGroup, int numberOfGroups)
+        public void ProduceGroupOfSizeIfListOfOneIsGroupedBy(int dataSize, int sizeOfEachGroup, int numberOfGroups)
         {
             var measurements = CreateMeasurementListOfSize(dataSize);
 
