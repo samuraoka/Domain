@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -38,6 +39,23 @@ namespace Domain.Tests
 
             // Assert
             Assert.Equal(expectedAverage, result.LowValue);
+        }
+
+        [Fact]
+        public void ThrowArgumentNullExceptionWhenPassingNullMeasurements()
+        {
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => averageCalculator.Aggregate(null));
+        }
+
+        [Fact]
+        public void ThrowNullReferenceExceptionWhenPassingNullContainingMeasurements()
+        {
+            // Arrange
+            measurements.Add(null);
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => averageCalculator.Aggregate(measurements));
         }
 
         private object AverageLow(IList<Measurement> measurements)
